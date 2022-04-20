@@ -1,0 +1,76 @@
+{% extends 'shop_app/base.html' %}
+
+{% block title_page %}
+<title>Корзина</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="cart-title mt-50">
+                    <h2>Корзина покупок</h2>
+                </div>
+
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th>Количество</th>
+                                <th>Удалить</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart %}
+                                <tr>
+                                    <td class="cart_product_img">
+                                        <a href="#"><img src="{{ item.product.image.url }}" alt="Product"></a>
+                                    </td>
+                                    <td class="cart_product_desc">
+                                        <h5>{{ item.product.name }}</h5>
+                                    </td>
+                                    <td class="price">
+                                        <span>${{ item.product.price }}</span>
+                                    </td>
+                                    <td class="qty">
+                                        <div class="qty-btn d-flex">
+                                            <form class="quantity" action="{% url 'cart_add' item.product.id %}" method="post">
+                                                {{ item.update_quantity_form.quantity }}
+                                                {{ item.update_quantity_form.update }}
+                                                <input type="submit" value="ок">
+                                                {% csrf_token %}
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <form class="cart clearfix" action="{% url 'cart_remove' item.product.id %}" method="post">
+                                            <input type="submit" value="Удалить">
+                                            {% csrf_token %}
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="cart-summary">
+                    <h5>Итоговая цена</h5>
+                    <ul class="summary-table">
+                        <li><span>Всего:</span> <span>${{ cart.get_total_price }}</span></li>
+                    </ul>
+                    <div class="cart-btn mt-100">
+                        <a href="cart.html" class="btn amado-btn w-100">Оформить заказ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

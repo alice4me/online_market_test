@@ -1,0 +1,26 @@
+{% extends 'shop_app/base.html' %}
+
+{% block title_page %}
+<title>Главная магазин игрушек</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="products-catagories-area clearfix">
+    <div class="amado-pro-catagory clearfix">
+        {% for cat in categories %}
+            <div class="single-products-catagory clearfix">
+                <a href="{% url 'shop' %}?cat={{ cat.id }}">
+                    <img src="{{ cat.image.url }}" alt="">
+                    <!-- Hover Content -->
+                    <div class="hover-content">
+                        <div class="line"></div>
+                        <p>From ${{ cat.min_price }}</p>
+                        <h4>{{ cat.name }}</h4>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'shop_app/base.html' %}
+
+{% load static %}
+
+{% block title_page %}
+<title>Мазазин игрушек</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="shop_sidebar_area">
+
+    <!-- ##### Single Widget ##### -->
+    <div class="widget catagory mb-50">
+        <!-- Widget Title -->
+        <h6 class="widget-title mb-30">Категории</h6>
+
+        <!--  Catagories  -->
+        <div class="catagories-menu">
+            <ul>
+                <li><a href="{% url 'shop' %}">Все</a></li>
+                {% for cat in categories %}
+                    <li><a href="{% url 'shop' %}?cat={{ cat.id }}">{{ cat.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div class="amado_product_area section-padding-100">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                    <!-- Sorting -->
+                    <div class="product-sorting d-flex">
+                        <button onClick="updateQueryStringParameter(document.location.href, 'price_ord', 'ASC')">Сортировать по возрастанию цены</button>
+                        <button onClick="updateQueryStringParameter(document.location.href, 'price_ord', 'DESC')">Сортировать по убыванию цены</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for p in products %}
+                {% if p.available %}
+                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <a href="{% url 'product_details' p.id %}">
+                                <div class="product-img">
+                                    <img src="{{ p.image.url }}" alt="">
+                                </div>
+                            </a>
+
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">${{ p.price }}</p>
+                                    <a href="product-details.html">
+                                        <h6>{{ p.name }}</h6>
+                                    </a>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function updateQueryStringParameter(uri, key, value){
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            document.location.href = uri.replace(re, '$1' + key + "=" + value + '$2');
+        }
+        else {
+            document.location.href = uri + separator + key + "=" + value;
+        }
+    }
+</script>
+{% endblock %}
