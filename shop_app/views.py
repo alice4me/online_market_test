@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.core.exceptions import ValidationError
 from django.db.models import Min
 
 from shop_app.models import Category, Product
@@ -63,7 +62,7 @@ def cart_add(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     if not product.available:
-        return redirect('home')
+        return handle_error(request, error_messages.ADD_UNAVAILABLE_PRODUCT, 400)
 
     form = CartAddProductForm(request.POST)
     if form.is_valid():
