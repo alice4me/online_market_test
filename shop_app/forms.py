@@ -2,6 +2,8 @@ from django import forms
 
 from django.core.exceptions import ValidationError
 
+from shop_app.error_messages import WRONG_QUANTITY_COUNT
+
 
 class CartAddProductForm(forms.Form):
     quantity = forms.IntegerField()
@@ -13,6 +15,6 @@ class CartAddProductForm(forms.Form):
         data = self.cleaned_data['quantity']
 
         if data < 1:
-            raise ValidationError('Выбрано некорректное количество товара')
+            raise ValidationError(WRONG_QUANTITY_COUNT)
 
         return data

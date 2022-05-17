@@ -45,43 +45,55 @@
 
         <div class="row">
             {% for p in products %}
-                {% if p.available %}
-                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
-                        <div class="single-product-wrapper">
-                            <!-- Product Image -->
-                            <a href="{% url 'product_details' p.id %}">
-                                <div class="product-img">
-                                    <img src="{{ p.image.url }}" alt="">
-                                </div>
-                            </a>
+                <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                    <div class="single-product-wrapper">
+                        <!-- Product Image -->
+                        <a href="{% url 'product_details' p.id %}">
+                            <div class="product-img">
+                                <img src="{{ p.image.url }}" alt="">
+                            </div>
+                        </a>
 
-                            <!-- Product Description -->
-                            <div class="product-description d-flex align-items-center justify-content-between">
-                                <!-- Product Meta Data -->
-                                <div class="product-meta-data">
-                                    <div class="line"></div>
-                                    <p class="product-price">${{ p.price }}</p>
-                                    <a href="product-details.html">
-                                        <h6>{{ p.name }}</h6>
-                                    </a>
-                                </div>
-                                <!-- Ratings & Cart -->
-                                <div class="ratings-cart text-right">
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
+                        <!-- Product Description -->
+                        <div class="product-description d-flex align-items-center justify-content-between">
+                            <!-- Product Meta Data -->
+                            <div class="product-meta-data">
+                                <div class="line"></div>
+                                <p class="product-price">${{ p.price }}</p>
+                                <a href="product-details.html">
+                                    <h6>{{ p.name }}</h6>
+                                </a>
+                            </div>
+                            <!-- Ratings & Cart -->
+                            <div class="ratings-cart text-right">
+                                <div class="ratings">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% endif %}
+                </div>
             {% endfor %}
-
         </div>
+
+        <div class='pagination justify-content-center'>
+            {% if products.has_previous %}
+                <button onClick="updateQueryStringParameter(document.location.href, 'page', {{ products.previous_page_number }})">Предыдущая</button>
+            {% endif %}
+
+            <span class='mx-4'>
+                Страница {{ products.number }} из {{ products.paginator.num_pages }}
+            </span>
+
+            {% if products.has_next %}
+                <button onClick="updateQueryStringParameter(document.location.href, 'page', {{ products.next_page_number }})">Следующая</button>
+            {% endif %}
+        </div>
+
     </div>
 </div>
 
